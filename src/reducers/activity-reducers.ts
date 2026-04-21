@@ -1,25 +1,29 @@
 import type { Activity } from "../types";
 
+
 export type ActivityActions = {
     type: "save-activity";
-    payLoad: { newActivity: Activity };
+    payload: { newActivity: Activity };
 };
 
-type activityState = {
+type ActivityState = {
     activities: Activity[];
 };
 
-export const initialState: activityState = {
+export const initialState: ActivityState = {
     activities: [],
 };
 
 export const activityReducer = (
-    state: activityState = initialState,
+    state: ActivityState = initialState,
     action: ActivityActions,
 ) => {
     if (action.type === "save-activity") {
         //este cdigo maneja la logica para actualizar el state
-        console.log("desde el type de save-activity");
+        return {
+            ...state,
+            activities: [...state.activities, action.payload. newActivity]
+        }
     }
     return state
 };
