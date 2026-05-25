@@ -22,11 +22,17 @@ function App() {
 
         <main className="mx-auto flex max-w-5xl flex-col gap-8 px-5 py-10">
           <section className="rounded-3xl bg-white/10 p-6 shadow-2xl ring-1 ring-white/15 backdrop-blur-md md:p-8">
-            <Form dispatch={dispatch} />
+            <Form 
+              dispatch={dispatch}
+              state={state}
+            />
           </section>
 
           <section className="rounded-3xl bg-white/5 p-6 shadow-xl ring-1 ring-white/10 backdrop-blur-sm md:p-8">
-            <ActivityList activities={state.activities} />
+            <ActivityList 
+              activities={state.activities} 
+              dispatch={dispatch}
+            />
           </section>
         </main>
       </div>

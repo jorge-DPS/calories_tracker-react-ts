@@ -1,9 +1,12 @@
+import { useMemo, type Dispatch } from "react";
 import type { Activity } from "../types";
 import { categories } from "../data/categories";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
+import type { ActivityActions } from "../reducers/activity-reducers";
 
 type ActivityListProps = {
   activities: Activity[];
+  dispatch: Dispatch<ActivityActions>;
 };
 
 function getCategoryInfo(categoryId: Activity["category"]) {
@@ -30,7 +33,8 @@ function getCategoryInfo(categoryId: Activity["category"]) {
       };
 }
 
-export default function ActivityList({ activities }: ActivityListProps) {
+export default function ActivityList({ activities, dispatch } : ActivityListProps) {
+  const isEmptyActivities = useMemo( () => activities.length === 0, [activities])
   return (
     <div className="space-y-6">
       <div className="text-center">
@@ -42,7 +46,7 @@ export default function ActivityList({ activities }: ActivityListProps) {
         </p>
       </div>
 
-      {activities.length === 0 ? (
+      {isEmptyActivities ? (
         <div className="rounded-3xl border border-dashed border-white/15 bg-white/5 px-6 py-14 text-center shadow-lg backdrop-blur-sm">
           <p className="text-lg font-semibold text-white/80">
             Aún no hay actividades registradas
@@ -100,17 +104,27 @@ export default function ActivityList({ activities }: ActivityListProps) {
                 <div className="shrink-0 border-l border-white/10 pl-4">
                   <div className="flex items-center gap-2 rounded-2xl bg-black/10 p-1.5 ring-1 ring-white/10">
                     <button
+                      onClick={() =>
+                        dispatch({
+                          type: "set-activeId",
+                          payload: { id: activity.id },
+                        })
+                      }
                       type="button"
                       className="inline-flex h-10 w-10 items-center justify-center rounded-xl text-white/70 transition hover:bg-fuchsia-500/10 hover:text-fuchsia-300 focus:outline-none focus:ring-4 focus:ring-fuchsia-500/20"
-                      aria-label={`Editar ${activity.name}`}
                     >
                       <PencilSquareIcon className="h-5 w-5" />
                     </button>
 
                     <button
+                      onClick = { () => 
+                        dispatch ({ 
+                          type: "delete-activity", 
+                          payload: { id: activity.id } 
+                        })
+                      }
                       type="button"
                       className="inline-flex h-10 w-10 items-center justify-center rounded-xl text-white/70 transition hover:bg-rose-500/10 hover:text-rose-300 focus:outline-none focus:ring-4 focus:ring-rose-500/20"
-                      aria-label={`Eliminar ${activity.name}`}
                     >
                       <TrashIcon className="h-5 w-5" />
                     </button>
