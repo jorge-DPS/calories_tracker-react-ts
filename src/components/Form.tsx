@@ -23,13 +23,11 @@ export default function Form({ dispatch, state }: FormProps) {
 
   useEffect(() => {
     if (state.activeId) {
-      // console.log('id', state.activeId);
-      
-      const selectedActivity = state.activities.filter( stateActivity => stateActivity.id === state.activeId)[0];
-      setActivity(selectedActivity);
-      
+      const selectedActivity = state.activities.find( stateActivity => stateActivity.id === state.activeId);
+      if(selectedActivity) {
+        setActivity(selectedActivity);
+      }
     }
-
   }, [state.activeId])
 
   const handleChange = ( e: ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
@@ -129,8 +127,8 @@ export default function Form({ dispatch, state }: FormProps) {
           value={
             activity.category === 1 ? "Guardar comida" : "Guardar ejercicio"
           }
-          className="w-full rounded-2xl bg-fuchsia-500 px-4 py-3 text-sm font-bold uppercase tracking-wide text-white transition
-                   hover:bg-fuchsia-600 disabled:cursor-not-allowed disabled:opacity-40"
+          className="w-full rounded-2xl bg-fuchsia-500 px-4 py-3 text-sm font-bold uppercase tracking-widest text-white transition-all
+                   hover:bg-fuchsia-600 hover:shadow-lg hover:shadow-fuchsia-500/20 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-20"
           disabled={!isValidity()}
         />
       </div>
